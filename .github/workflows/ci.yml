@@ -40,6 +40,8 @@ jobs:
       - name: Configure Databricks CLI
         run: |
           source env/dev.txt
+          # No --aad-token needed; just set host
+          export DATABRICKS_HOST=$DATABRICKS_HOST
           databricks workspace list /
 
       - name: Validate Databricks Bundle
@@ -72,7 +74,7 @@ jobs:
       - name: Configure Databricks CLI
         run: |
           source env/dev.txt
-          databricks configure --aad-token --host $DATABRICKS_HOST
+          export DATABRICKS_HOST=$DATABRICKS_HOST
 
       - name: Deploy to Dev
         run: databricks bundle deploy --target $TARGET
@@ -105,7 +107,7 @@ jobs:
       - name: Configure Databricks CLI
         run: |
           source env/uat.txt
-          databricks configure --aad-token --host $DATABRICKS_HOST
+          export DATABRICKS_HOST=$DATABRICKS_HOST
 
       - name: Deploy to UAT
         run: databricks bundle deploy --target $TARGET
@@ -138,7 +140,7 @@ jobs:
       - name: Configure Databricks CLI
         run: |
           source env/prod.txt
-          databricks configure --aad-token --host $DATABRICKS_HOST
+          export DATABRICKS_HOST=$DATABRICKS_HOST
 
       - name: Deploy to Prod
         run: databricks bundle deploy --target $TARGET
