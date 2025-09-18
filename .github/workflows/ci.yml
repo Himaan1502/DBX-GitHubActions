@@ -75,9 +75,12 @@ jobs:
         run: |
           source env/dev.txt
           export DATABRICKS_HOST=$DATABRICKS_HOST
+          export TARGET=$TARGET
 
       - name: Deploy to Dev
-        run: databricks bundle deploy --target "${TARGET}"
+        run: |
+          cd DBX_Template
+          databricks bundle deploy --target "${TARGET}"
 
   # Deploy to UAT after Dev
   deploy-uat:
