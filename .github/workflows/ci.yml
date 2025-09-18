@@ -116,7 +116,9 @@ jobs:
           export DATABRICKS_HOST=$DATABRICKS_HOST
 
       - name: Deploy to UAT
-        run: databricks bundle deploy --target $TARGET
+        run: |
+          cd DBX_Template
+          databricks bundle deploy --target "${TARGET}"
 
   # Deploy to Prod after UAT
   deploy-prod:
@@ -149,4 +151,6 @@ jobs:
           export DATABRICKS_HOST=$DATABRICKS_HOST
 
       - name: Deploy to Prod
-        run: databricks bundle deploy --target $TARGET
+        run: |
+          cd DBX_Template
+          databricks bundle deploy --target "${TARGET}"
