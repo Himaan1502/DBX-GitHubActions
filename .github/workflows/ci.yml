@@ -110,6 +110,9 @@ jobs:
           enable-AzPSSession: false
           environment: azurecloud
 
+      - name: Install uv
+        run: pip install uv
+      
       - name: Configure Databricks CLI
         run: |
           source env/uat.txt
@@ -145,6 +148,9 @@ jobs:
           enable-AzPSSession: false
           environment: azurecloud
 
+      - name: Install uv
+        run: pip install uv
+      
       - name: Configure Databricks CLI
         run: |
           source env/prod.txt
