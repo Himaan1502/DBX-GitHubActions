@@ -1,0 +1,14 @@
+# The main pipeline for DBX_Template
+resources:
+  pipelines:
+    DBX_Template_pipeline:
+      name: DBX_Template_pipeline
+      ## Specify the 'catalog' field to configure this pipeline to make use of Unity Catalog:
+      # catalog: catalog_name
+      schema: DBX_Template_${bundle.target}
+      libraries:
+        - notebook:
+            path: ../src/dlt_pipeline.ipynb
+
+      configuration:
+        bundle.sourcePath: ${workspace.file_path}/src
