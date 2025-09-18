@@ -17,18 +17,27 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
-      - name: Checkout Global Templates
-        uses: actions/checkout@v4
-        with:
-          repository: Himaan1502/databricks-ci-cd-templates
-          ref: main
-          path: ./.github/templates
+      - name: Install Databricks CLI
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
+          pip install wheel
+          databricks --version
 
-      - name: Validate Bundle (Dev)
-        uses: ./.github/actions/run
+      - name: Azure Login
+        uses: azure/login@v1
         with:
-          command: "bundle validate --target dev"
-          env-file: env/dev.txt
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Configure Databricks CLI
+        run: |
+          source env/dev.txt
+          databricks configure --aad-token --host $DATABRICKS_HOST
+
+      - name: Validate Databricks Bundle
+        run: databricks bundle validate --target $TARGET
 
   # Deploy to Dev on main push
   deploy-dev:
@@ -38,17 +47,27 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
-      - name: Checkout Global Templates
-        uses: actions/checkout@v4
+      - name: Install Databricks CLI
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
+          pip install wheel
+          databricks --version
+
+      - name: Azure Login
+        uses: azure/login@v1
         with:
-          repository: Himaan1502/databricks-ci-cd-templates
-          ref: main
-          path: ./.github/templates
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Configure Databricks CLI
+        run: |
+          source env/dev.txt
+          databricks configure --aad-token --host $DATABRICKS_HOST
 
       - name: Deploy to Dev
-        uses: ./.github/actions/deploy
-        with:
-          env-file: env/dev.txt
+        run: databricks bundle deploy --target $TARGET
 
   # Deploy to UAT after Dev
   deploy-uat:
@@ -59,17 +78,27 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
-      - name: Checkout Global Templates
-        uses: actions/checkout@v4
+      - name: Install Databricks CLI
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
+          pip install wheel
+          databricks --version
+
+      - name: Azure Login
+        uses: azure/login@v1
         with:
-          repository: Himaan1502/databricks-ci-cd-templates
-          ref: main
-          path: ./.github/templates
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Configure Databricks CLI
+        run: |
+          source env/uat.txt
+          databricks configure --aad-token --host $DATABRICKS_HOST
 
       - name: Deploy to UAT
-        uses: ./.github/actions/deploy
-        with:
-          env-file: env/uat.txt
+        run: databricks bundle deploy --target $TARGET
 
   # Deploy to Prod after UAT
   deploy-prod:
@@ -80,14 +109,24 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
-      - name: Checkout Global Templates
-        uses: actions/checkout@v4
+      - name: Install Databricks CLI
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
+          pip install wheel
+          databricks --version
+
+      - name: Azure Login
+        uses: azure/login@v1
         with:
-          repository: Himaan1502/databricks-ci-cd-templates
-          ref: main
-          path: ./.github/templates
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Configure Databricks CLI
+        run: |
+          source env/prod.txt
+          databricks configure --aad-token --host $DATABRICKS_HOST
 
       - name: Deploy to Prod
-        uses: ./.github/actions/deploy
-        with:
-          env-file: env/prod.txt
+        run: databricks bundle deploy --target $TARGET
