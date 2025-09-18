@@ -1,6 +1,5 @@
 # Prod Environment Variables
 TARGET=prod
 DATABRICKS_HOST=https://adb-1983860954896062.2.azuredatabricks.net
-DATABRICKS_TOKEN=${{ secrets.DATABRICKS_PROD_TOKEN }}
 SUBSCRIPTION_ID=04cf6a61-e2b0-4704-8f60-f89b221a96c5
 RESOURCE_GROUP=databricks-prod-rg
