@@ -1,0 +1,16 @@
+name: Deploy Databricks Bundle
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Target environment (dev, uat, prod)"
+        required: true
+        default: dev
+
+jobs:
+  deploy:
+    uses: Himaan1502/databricks-ci-cd-templates/.github/workflows/deploy.yml@main
+    with:
+      env-file: env/${{ github.event.inputs.environment }}.txt
+    secrets: inherit
