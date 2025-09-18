@@ -40,7 +40,7 @@ jobs:
       - name: Configure Databricks CLI
         run: |
           source env/dev.txt
-          databricks configure --aad-token --host $DATABRICKS_HOST
+          databricks workspace list /
 
       - name: Validate Databricks Bundle
         run: databricks bundle validate --target $TARGET
