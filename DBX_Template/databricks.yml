@@ -50,4 +50,4 @@ targets:
     presets:
       artifacts_dynamic_version: true
     run_as:
-      service_principal_name: DBX-Managed-Identity
+      service_principal_name: 47ad5252-9aee-4de8-85e2-62433b16894f
