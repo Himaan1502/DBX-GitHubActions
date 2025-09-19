@@ -30,8 +30,8 @@ targets:
     permissions:
       - user_name: himaan.celebal1@outlook.com
         level: CAN_MANAGE
-      - service_principal_name: DBX-Managed-Identity
-        level: CAN_MANAGE
+      # - service_principal_name: DBX-Managed-Identity
+      #   level: CAN_MANAGE
     presets:
       artifacts_dynamic_version: true  
     run_as:
@@ -45,7 +45,7 @@ targets:
     permissions:
       - user_name: himaan.celebal1@outlook.com
         level: CAN_MANAGE
-      - service_principal_name: DBX-Managed-Identity
-        level: CAN_MANAGE
+      # - service_principal_name: DBX-Managed-Identity
+      #   level: CAN_MANAGE
     presets:
       artifacts_dynamic_version: true
