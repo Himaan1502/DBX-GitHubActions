@@ -37,15 +37,15 @@ jobs:
           enable-AzPSSession: false
           environment: azurecloud
 
-      - name: Configure Databricks CLI
+      - name: Load Dev environment
         run: |
           source env/dev.txt
-          # No --aad-token needed; just set host
-          export DATABRICKS_HOST=$DATABRICKS_HOST
-          databricks workspace list /
+          echo "TARGET=$TARGET" >> $GITHUB_ENV
+          echo "DATABRICKS_HOST=$DATABRICKS_HOST" >> $GITHUB_ENV
 
       - name: Validate Databricks Bundle
-        run: databricks bundle validate "${TARGET}"
+        run: |
+          databricks bundle validate "$TARGET"
 
   # Deploy to Dev on main push
   deploy-dev:
@@ -73,17 +73,17 @@ jobs:
 
       - name: Install uv
         run: pip install uv
-      
-      - name: Configure Databricks CLI
+
+      - name: Load Dev environment
         run: |
           source env/dev.txt
-          export DATABRICKS_HOST=$DATABRICKS_HOST
-          export TARGET=$TARGET
+          echo "TARGET=$TARGET" >> $GITHUB_ENV
+          echo "DATABRICKS_HOST=$DATABRICKS_HOST" >> $GITHUB_ENV
 
       - name: Deploy to Dev
         run: |
           cd DBX_Template
-          databricks bundle deploy --target "${TARGET}"
+          databricks bundle deploy --target "$TARGET"
 
   # Deploy to UAT after Dev
   deploy-uat:
@@ -112,14 +112,17 @@ jobs:
 
       - name: Install uv
         run: pip install uv
-      
-      - name: Configure Databricks CLI
-        run: source env/uat.txt
+
+      - name: Load UAT environment
+        run: |
+          source env/uat.txt
+          echo "TARGET=$TARGET" >> $GITHUB_ENV
+          echo "DATABRICKS_HOST=$DATABRICKS_HOST" >> $GITHUB_ENV
 
       - name: Deploy to UAT
         run: |
           cd DBX_Template
-          databricks bundle deploy --target "${TARGET}"
+          databricks bundle deploy --target "$TARGET"
 
   # Deploy to Prod after UAT
   deploy-prod:
@@ -148,13 +151,14 @@ jobs:
 
       - name: Install uv
         run: pip install uv
-      
-      - name: Configure Databricks CLI
+
+      - name: Load Prod environment
         run: |
           source env/prod.txt
-          export DATABRICKS_HOST=$DATABRICKS_HOST
+          echo "TARGET=$TARGET" >> $GITHUB_ENV
+          echo "DATABRICKS_HOST=$DATABRICKS_HOST" >> $GITHUB_ENV
 
       - name: Deploy to Prod
         run: |
           cd DBX_Template
-          databricks bundle deploy --target "${TARGET}"
+          databricks bundle deploy --target "$TARGET"
