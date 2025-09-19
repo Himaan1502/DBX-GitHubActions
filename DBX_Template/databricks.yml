@@ -23,7 +23,7 @@ targets:
       artifacts_dynamic_version: true
 
   uat:
-    mode: production
+    mode: development
     workspace:
       host: https://adb-2935275628998755.15.azuredatabricks.net
       # root_path: /Workspace/Users/himaan.celebal1@outlook.com/.bundle/${bundle.name}/${bundle.target}
