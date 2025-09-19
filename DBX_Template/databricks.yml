@@ -23,17 +23,17 @@ targets:
       artifacts_dynamic_version: true
 
   uat:
-  mode: production
-  workspace:
-    host: https://adb-2935275628998755.15.azuredatabricks.net
-    root_path: /Workspace/Users/himaan.celebal1@outlook.com/.bundle/${bundle.name}/${bundle.target}
-  permissions:
-    - user_name: himaan.celebal1@outlook.com
-      level: CAN_MANAGE
-    - service_principal_name: DBX-Managed-Identity   # 👈 Add this
-      level: CAN_MANAGE
-  presets:
-    artifacts_dynamic_version: true    
+    mode: production
+    workspace:
+      host: https://adb-2935275628998755.15.azuredatabricks.net
+      root_path: /Workspace/Users/himaan.celebal1@outlook.com/.bundle/${bundle.name}/${bundle.target}
+    permissions:
+      - user_name: himaan.celebal1@outlook.com
+        level: CAN_MANAGE
+      - service_principal_name: DBX-Managed-Identity
+        level: CAN_MANAGE
+    presets:
+      artifacts_dynamic_version: true    
 
   prod:
     mode: production
@@ -43,5 +43,7 @@ targets:
     permissions:
       - user_name: himaan.celebal1@outlook.com
         level: CAN_MANAGE
-      - service_principal_name: DBX-Managed-Identity   # 👈 Add this
+      - service_principal_name: DBX-Managed-Identity
         level: CAN_MANAGE
+    presets:
+      artifacts_dynamic_version: true
