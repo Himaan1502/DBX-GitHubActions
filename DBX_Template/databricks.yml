@@ -33,7 +33,9 @@ targets:
       - service_principal_name: DBX-Managed-Identity
         level: CAN_MANAGE
     presets:
-      artifacts_dynamic_version: true    
+      artifacts_dynamic_version: true  
+    run_as:
+      service_principal_name: DBX-Managed-Identity
 
   prod:
     mode: production
