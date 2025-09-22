@@ -27,7 +27,7 @@ jobs:
       subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
   deploy-dev:
-    if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
+    if: github.ref == 'refs/heads/develop'
     uses: Himaan1502/databricks-ci-cd-templates/.github/workflows/reusable-ci-cd.yml@main
     with:
       environment: dev
@@ -37,7 +37,7 @@ jobs:
       subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
   deploy-uat:
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: github.ref == 'refs/heads/main'
     uses: Himaan1502/databricks-ci-cd-templates/.github/workflows/reusable-ci-cd.yml@main
     with:
       environment: uat
@@ -47,7 +47,7 @@ jobs:
       subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
   deploy-prod:
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: github.ref == 'refs/heads/main'
     needs: deploy-uat
     uses: Himaan1502/databricks-ci-cd-templates/.github/workflows/reusable-ci-cd.yml@main
     with:
