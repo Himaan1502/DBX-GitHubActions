@@ -1,0 +1,35 @@
+name: CI/CD for Databricks Bundles
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+
+jobs:
+  validate:
+    if: github.event_name == 'pull_request'
+    uses: Himaan1502/databricks-ci-cd-templates/.github/workflows/reusable-ci-cd.yml@main
+    with:
+      environment: dev
+
+  deploy-dev:
+    if: github.ref == 'refs/heads/develop'
+    uses: Himaan1502/databricks-ci-cd-templates/.github/workflows/reusable-ci-cd.yml@main
+    with:
+      environment: dev
+
+  deploy-uat:
+    if: github.ref == 'refs/heads/main'
+    needs: deploy-dev
+    uses: Himaan1502/databricks-ci-cd-templates/.github/workflows/reusable-ci-cd.yml@main
+    with:
+      environment: uat
+
+  deploy-prod:
+    if: github.ref == 'refs/heads/main'
+    needs: deploy-uat
+    uses: Himaan1502/databricks-ci-cd-templates/.github/workflows/reusable-ci-cd.yml@main
+    with:
+      environment: prod
