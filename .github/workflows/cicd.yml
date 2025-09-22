@@ -6,6 +6,10 @@ on:
       - main
       - develop
   pull_request:
+    branches:
+      - main
+      - develop
+  workflow_dispatch:   # allow manual run
 
 jobs:
   validate:
@@ -22,7 +26,6 @@ jobs:
 
   deploy-uat:
     if: github.ref == 'refs/heads/main'
-    needs: deploy-dev
     uses: Himaan1502/databricks-ci-cd-templates/.github/workflows/reusable-ci-cd.yml@main
     with:
       environment: uat
