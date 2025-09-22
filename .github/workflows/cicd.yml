@@ -11,6 +11,10 @@ on:
       - develop
   workflow_dispatch:
 
+permissions:
+  id-token: write   # Required for OIDC authentication
+  contents: read    # Required to checkout code
+
 jobs:
   validate:
     if: github.event_name == 'pull_request'
