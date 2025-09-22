@@ -14,37 +14,49 @@ on:
 jobs:
   validate:
     if: github.event_name == 'pull_request'
-    uses: Himaan1502/databricks-ci-cd-templates/.github/workflows/reusable-ci-cd.yml@main
-    with:
-      environment: dev
-      client-id: ${{ secrets.AZURE_CLIENT_ID }}
-      tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-      subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call reusable CI/CD workflow for validation
+        uses: Himaan1502/databricks-ci-cd-templates/.github/workflows/reusable-ci-cd.yml@main
+        with:
+          environment: dev
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
   deploy-dev:
     if: github.ref == 'refs/heads/develop'
-    uses: Himaan1502/databricks-ci-cd-templates/.github/workflows/reusable-ci-cd.yml@main
-    with:
-      environment: dev
-      client-id: ${{ secrets.AZURE_CLIENT_ID }}
-      tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-      subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call reusable CI/CD workflow for dev deployment
+        uses: Himaan1502/databricks-ci-cd-templates/.github/workflows/reusable-ci-cd.yml@main
+        with:
+          environment: dev
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
   deploy-uat:
     if: github.ref == 'refs/heads/main'
-    uses: Himaan1502/databricks-ci-cd-templates/.github/workflows/reusable-ci-cd.yml@main
-    with:
-      environment: uat
-      client-id: ${{ secrets.AZURE_CLIENT_ID }}
-      tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-      subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call reusable CI/CD workflow for UAT deployment
+        uses: Himaan1502/databricks-ci-cd-templates/.github/workflows/reusable-ci-cd.yml@main
+        with:
+          environment: uat
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
   deploy-prod:
     if: github.ref == 'refs/heads/main'
     needs: deploy-uat
-    uses: Himaan1502/databricks-ci-cd-templates/.github/workflows/reusable-ci-cd.yml@main
-    with:
-      environment: prod
-      client-id: ${{ secrets.AZURE_CLIENT_ID }}
-      tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-      subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call reusable CI/CD workflow for PROD deployment
+        uses: Himaan1502/databricks-ci-cd-templates/.github/workflows/reusable-ci-cd.yml@main
+        with:
+          environment: prod
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
